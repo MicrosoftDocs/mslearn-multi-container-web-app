@@ -1,0 +1,18 @@
+{
+  "name": "sample-nextjs-app",
+  "description": "Sample Next.js Application",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next export",
+    "start": "next start --port 80"
+  },
+  "dependencies": {
+    "linqjs": "^1.0.2",
+    "next": "^9.5.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "uuid": "^8.3.0"
+  }
+}
