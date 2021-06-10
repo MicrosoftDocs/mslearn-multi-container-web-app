@@ -13,6 +13,7 @@ CREATE TABLE locations(
 );
 
 CREATE TABLE locationrooms(
+    location_id       VARCHAR(100),
     description       VARCHAR(100),
     monthlyRate       DOUBLE,
     seats             INT,

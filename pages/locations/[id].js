@@ -1,8 +1,8 @@
 require("linqjs")
+import { PrismaClient } from '@prisma/client'
 import Layout from "../../components/layout";
 import Board from "../../components/board";
 import Check from "../../components/check";
-import Locations from "../data.json";
 
 const Index = ({ location }) =>
     <Layout>
@@ -43,7 +43,7 @@ const getTable = (location) =>
             </tr>
         </thead>
         <tbody>            
-            {location.rooms.map((room) => (
+            {location.locationrooms.map((room) => (
                 <tr key="{room.description}">
                     <th scope="row">
                         {room.description}
@@ -84,24 +84,31 @@ const getDetails = (location) =>
         </div>
     </div>;
 
-export const getStaticProps = async (context) =>
+export const getServerSideProps  = async (context) =>
 {
+    const prisma = new PrismaClient();
     const { id } = context.params;
+    var match = await prisma.locations.findUnique({
+        where: {
+          id: id,
+        },   
+        select: {
+            id: true,
+            name: true,
+            image: true,
+            parkingIncluded: true,
+            conferenceRoomsIncluded: true,
+            receptionIncluded: true,
+            publicAccess: true,
+            mailingAddress: true,
+            locationrooms: true
+        },
+      })
     return {
         props: {
-            location: [...Locations]
-            .where(l => l.id === id)
-            .first()
+            location: match
         }
     };
-}
-
-export async function getStaticPaths() {
-    return {
-      paths: [...Locations]
-        .select(l => '/locations/' + l.id),
-      fallback: false
-    }
 }
 
 export default Index

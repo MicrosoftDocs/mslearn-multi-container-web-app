@@ -4,13 +4,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && next export",
+    "dev": "npx prisma generate && next dev",
+    "build": "npx prisma generate && next build",
     "start": "next start --port 80"
   },
   "dependencies": {
+    "@prisma/client": "^2.24.1",
     "linqjs": "^1.0.2",
-    "mysql": "^2.18.1",
     "next": "^9.5.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
