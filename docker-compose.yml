@@ -2,11 +2,13 @@ version: '3'
 
 services:
     database:
-      image: msusdev/mslearn-contoso.spaces.database
+      image: localdbtest
       restart: always
     web:
       image: msusdev/mslearn-contoso.spaces.web
       restart: always
+      depends_on:
+        - database
       ports:
         - 80:80
       environment: 
