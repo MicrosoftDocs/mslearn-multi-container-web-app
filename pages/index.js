@@ -1,10 +1,10 @@
 require("linqjs")
 import { v4 as uuidv4 } from 'uuid';
+import { PrismaClient } from '@prisma/client'
 import Link from 'next/link'
 import Layout from "../components/layout";
 import Jumbotron from "../components/jumbotron";
 import Board from "../components/board";
-import Locations from "./data.json"
 
 const Index = ({ locationGroups }) =>
     <Layout>
@@ -49,12 +49,26 @@ const getLocation = (location) =>
         </Link>
     </div>;  
 
-export const getStaticProps = async (context) =>
+export const getServerSideProps  = async (context) =>
 {
-    var items = [...Locations]
-        .orderBy(l => l.lastRenovationDate)
-        .reverse()
-        .take(4);
+    const prisma = new PrismaClient();
+    var items = await prisma.locations.findMany({
+        orderBy: [
+            {
+                lastRenovationDate: 'desc'
+            }
+        ],
+        select: {
+            id: true,
+            name: true,
+            parkingIncluded: true,
+            conferenceRoomsIncluded: true,
+            receptionIncluded: true,
+            publicAccess: true,
+            mailingAddress: true
+        },
+        take: 4
+    });
     return {
         props: {
             locationGroups: chunkArray(items, 2)

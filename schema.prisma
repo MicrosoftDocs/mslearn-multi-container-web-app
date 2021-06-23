@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("MYSQL_CONNECTION_STRING")
+}
+
+model locationrooms {
+  id                Int        @id @default(autoincrement())
+  location_id       String?    @db.VarChar(100)
+  description       String?    @db.VarChar(100)
+  monthlyRate       Float?
+  seats             Int?
+  privateFacilities Boolean?
+  phoneIncluded     Boolean?
+  windows           Boolean?
+  corner            Boolean?
+  locations         locations? @relation(fields: [location_id], references: [id])
+
+  @@index([location_id], name: "fk_location")
+}
+
+model locations {
+  id                      String          @id @db.VarChar(100)
+  name                    String?         @db.VarChar(100)
+  longitude               Float?
+  latitude                Float?
+  mailingAddress          String?         @db.VarChar(100)
+  parkingIncluded         Boolean?
+  conferenceRoomsIncluded Boolean?
+  receptionIncluded       Boolean?
+  publicAccess            Boolean?
+  lastRenovationDate      DateTime?       @db.DateTime(0)
+  image                   String?         @db.VarChar(100)
+  locationrooms           locationrooms[]
+}
