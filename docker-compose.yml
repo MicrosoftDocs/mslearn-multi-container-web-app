@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    mysql:
+      image: msusdev/mslearn-contoso.spaces.database
+      restart: always
+    next:
+      image: msusdev/mslearn-contoso.spaces.web
+      restart: always
+      ports:
+        - 80:80
+      environment: 
+        MYSQL_CONNECTION_STRING: Server=mysql;Database=contosodb;Uid=contoso;Pwd=spaces;
