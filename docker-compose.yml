@@ -2,7 +2,7 @@ version: '3'
 
 services:
     database:
-      image: localdbtest
+      image: msusdev/mslearn-contoso.spaces.database
       restart: always
     web:
       image: msusdev/mslearn-contoso.spaces.web
